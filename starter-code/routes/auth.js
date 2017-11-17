@@ -18,32 +18,38 @@ router.get('/login', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  const emailInput = req.body.email;
-  const passwordInput = req.body.password;
+  const {email, password} = req.body;
 
-  if (emailInput === '' || passwordInput === '') {
+  if (email === '' || password === '') {
     res.render('auth/login', {
       errorMessage: 'Enter both email and password to log in.'
     });
     return;
   }
 
-  User.findOne({ email: emailInput }, (err, theUser) => {
-    if (err || theUser === null) {
+  // User.findOne({ email })
+  // .then(user => {
+  //   if (!user) throw new error `There isn't an account with email ${emailInput}.`;
+  //   if
+  //
+  // })
+
+  User.findOne({ email: email }, (err, user) => {
+    if (err || user === null) {
       res.render('auth/login', {
-        errorMessage: `There isn't an account with email ${emailInput}.`
+        errorMessage: `There isn't an account with email ${email}.`
       });
       return;
     }
 
-    if (!bcrypt.compareSync(passwordInput, theUser.password)) {
+    if (!bcrypt.compareSync(password, user.password)) {
       res.render('auth/login', {
         errorMessage: 'Invalid password.'
       });
       return;
     }
 
-    req.session.currentUser = theUser;
+    req.session.currentUser = user;
     res.redirect('/');
   });
 });
