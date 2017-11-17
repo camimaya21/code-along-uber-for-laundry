@@ -1,10 +1,6 @@
 <h2> Sign Up </h2>
 
-<% if (errorMessage) { %>
-  <p class="error-message">
-    <%= errorMessage %>
-  </p>
-<% } %>
+
 
 <form action="/signup" method="post">
   <div>
@@ -15,7 +11,7 @@
 
   <div>
     <label for="email-input"> Email </label>
-    <input type="email" name="email" id="email-input"
+    <input type="email" name="username" id="email-input"
       placeholder="e.g., diana@themyscira.agency">
   </div>
 
