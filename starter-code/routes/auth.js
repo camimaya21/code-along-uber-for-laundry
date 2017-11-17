@@ -48,6 +48,22 @@ router.post('/login', (req, res, next) => {
   });
 });
 
+router.get('/logout', (req, res, next) => {
+  if (!req.session.currentUser) {
+    res.redirect('/');
+    return;
+  }
+
+  req.session.destroy((err) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    res.redirect('/');
+  });
+});
+
 
 
 router.get("/signup", (req, res, next) => {
@@ -92,5 +108,6 @@ router.post("/signup", (req, res, next) => {
 router.get("/private-page", ensureLogin.ensureLoggedIn(), (req, res) => {
   res.render("private", { user: req.user });
 });
+
 
 module.exports = router;
